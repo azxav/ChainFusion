@@ -200,7 +200,8 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
       if(isActiveParent && !isOpen) {
         setIsOpen(true);
       }
-    }, [isActiveParent, isOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isActiveParent, item.children]); // Adjusted dependencies: isOpen removed to prevent re-renders on its own change
 
     return (
       <SidebarMenuItem>
@@ -286,7 +287,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
       </Sidebar>
       <SidebarInset className="flex flex-col">
         <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:justify-end sm:px-6 shadow-sm">
-          <SidebarTrigger className="sm:hidden" />
+          <SidebarTrigger />
           <UserProfile />
         </header>
         <main className="flex-1 overflow-auto p-4 md:p-6">
