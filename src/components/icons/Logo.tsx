@@ -12,10 +12,10 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       <text
         x="10" // Adjusted x-coordinate
         y="35"
-        fontFamily="var(--font-geist-sans)" // Explicitly set font family
+        fontFamily="var(--font-geist-sans)"
         fontSize="30"
         fontWeight="bold"
-        fill="currentColor" // Inherits color from parent's text color (e.g., text-sidebar-primary-foreground)
+        fill="currentColor"
       >
         ChainFusion
       </text>
