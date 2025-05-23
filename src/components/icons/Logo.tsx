@@ -19,7 +19,7 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
         fontWeight="bold"
         fill="currentColor"
       >
-        Tashkent Vision
+        ChainFusion
       </text>
     </svg>
   );
