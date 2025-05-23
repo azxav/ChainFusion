@@ -16,7 +16,7 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
         font-family="var(--font-geist-sans)"
         font-size="30"
         font-weight="bold"
-        fill="currentColor"
+        fill="hsl(var(--sidebar-primary-foreground))"
       >
         ChainFusion
       </text>
