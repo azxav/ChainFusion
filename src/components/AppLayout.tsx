@@ -62,7 +62,7 @@ const SidebarMenuSub = React.forwardRef<
     ref={ref}
     data-sidebar="menu-sub"
     className={cn(
-      "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5",
+      "flex min-w-0 flex-col gap-1 py-0.5", // Removed mx-3.5, border-l, px-2.5, translate-x-px
       "group-data-[collapsible=icon]:hidden",
       className
     )}
@@ -92,7 +92,7 @@ const SidebarMenuSubButton = React.forwardRef<
     data-sidebar="menu-sub-button"
     data-active={isActive || undefined}
     className={cn(
-      "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
+      "flex h-7 min-w-0 items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
       "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
       "text-sm",
       "group-data-[collapsible=icon]:hidden",
@@ -240,7 +240,7 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
 }
 
 function LayoutInternal({ children, pathname }: { children: ReactNode; pathname: string | null }) {
-  const { state: sidebarState, isMobile } = useSidebar();
+  const { state: sidebarState, isMobile, toggleSidebar } = useSidebar();
 
   return (
     <>
@@ -249,25 +249,32 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
             "flex items-center h-14",
             // Mobile: Logo only, aligned left
             isMobile && "justify-start p-4",
-            // Desktop Expanded: Logo only, aligned left
-            !isMobile && sidebarState === 'expanded' && "justify-start p-4",
-            // Desktop Collapsed: Empty, small, centered (icon rail header area)
+            // Desktop Expanded: Logo left, Trigger right
+            !isMobile && sidebarState === 'expanded' && "justify-between p-4",
+            // Desktop Collapsed: Trigger only, centered
             !isMobile && sidebarState === 'collapsed' && "justify-center p-2"
           )}>
             {/* Mobile Header Content (in Sheet) */}
             {isMobile && (
               <Link href="/" className="flex items-center gap-2 text-sidebar-foreground hover:text-sidebar-primary-foreground">
-                <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
+                <Logo className="h-6 w-auto" />
               </Link>
             )}
 
             {/* Desktop Expanded Sidebar Header Content */}
             {!isMobile && sidebarState === 'expanded' && (
-              <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
-                <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
-              </Link>
+              <>
+                <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
+                  <Logo className="h-6 w-auto" />
+                </Link>
+                <SidebarTrigger className="text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent" />
+              </>
             )}
-            {/* Desktop Collapsed Sidebar Header Content - empty as trigger is now outside */}
+            
+            {/* Desktop Collapsed Sidebar Header Content */}
+            {!isMobile && sidebarState === 'collapsed' && (
+              <SidebarTrigger className="text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent" />
+            )}
           </SidebarHeader>
         <SidebarContent>
           <ScrollArea className="h-full">
@@ -302,9 +309,10 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
       </Sidebar>
       <SidebarInset className="flex flex-col">
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
-          {/* SidebarTrigger is now always here and visible on all screen sizes */}
-          <SidebarTrigger />
-          {/* Flex spacer to push UserProfile to the right */}
+           {/* Mobile-only trigger in main header. Desktop trigger is now in SidebarHeader. */}
+          {isMobile && <SidebarTrigger />}
+          {/* For desktop, ensure there's an element to push UserProfile right if no mobile trigger */}
+          {!isMobile && <div className="w-7 h-7"> {/* Placeholder for alignment, matches icon button size */}</div>}
           <div className="flex-1"></div>
           <UserProfile />
         </header>
@@ -319,7 +327,7 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
 export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   return (
-    <SidebarProvider defaultOpen> {/* Ensure defaultOpen is true if you want it open by default */}
+    <SidebarProvider defaultOpen>
       <LayoutInternal pathname={pathname}>
         {children}
       </LayoutInternal>
