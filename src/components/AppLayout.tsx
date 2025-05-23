@@ -49,7 +49,6 @@ import {
   PackageSearch,
   GitFork,
   DatabaseZap,
-  PanelLeft
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -240,19 +239,16 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
 }
 
 function LayoutInternal({ children, pathname }: { children: ReactNode; pathname: string | null }) {
-  const { state: sidebarState, isMobile, toggleSidebar } = useSidebar();
+  const { state: sidebarState, isMobile } = useSidebar();
 
   return (
     <>
       <Sidebar collapsible="icon">
-         <SidebarHeader className={cn(
+          <SidebarHeader className={cn(
             "flex items-center h-14",
-            // Mobile: Logo only, aligned left
-            isMobile && "justify-start p-4",
-            // Desktop Expanded: Logo left, Trigger right
-            !isMobile && sidebarState === 'expanded' && "justify-between p-4",
-            // Desktop Collapsed: Trigger only, centered
-            !isMobile && sidebarState === 'collapsed' && "justify-center p-2"
+            isMobile && "justify-start p-4", // Mobile: Logo only, aligned left
+            !isMobile && sidebarState === 'expanded' && "justify-start p-4", // Desktop Expanded: Logo left
+            !isMobile && sidebarState === 'collapsed' && "justify-center p-2 h-14" // Desktop Collapsed: Minimal
           )}>
             {/* Mobile Header Content (in Sheet) */}
             {isMobile && (
@@ -263,18 +259,11 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
 
             {/* Desktop Expanded Sidebar Header Content */}
             {!isMobile && sidebarState === 'expanded' && (
-              <>
-                <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
-                  <Logo className="h-6 w-auto" />
-                </Link>
-                <SidebarTrigger className="text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent" />
-              </>
+              <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
+                <Logo className="h-6 w-auto" />
+              </Link>
             )}
-            
-            {/* Desktop Collapsed Sidebar Header Content */}
-            {!isMobile && sidebarState === 'collapsed' && (
-              <SidebarTrigger className="text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent" />
-            )}
+            {/* Desktop Collapsed Sidebar Header: No logo or trigger as trigger is outside */}
           </SidebarHeader>
         <SidebarContent>
           <ScrollArea className="h-full">
@@ -307,13 +296,21 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
           </Button>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="flex flex-col">
+      <SidebarInset className="flex flex-col relative"> {/* Ensure relative positioning for the absolute trigger */}
+        
+        {/* Desktop Sidebar Trigger: Positioned top-left of this SidebarInset container */}
+        <div className="absolute top-3.5 left-4 z-20 hidden md:flex"> {/* Use md:flex to show on desktop */}
+            <SidebarTrigger className="h-7 w-7 text-foreground hover:bg-accent hover:text-accent-foreground" />
+        </div>
+
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
-           {/* Mobile-only trigger in main header. Desktop trigger is now in SidebarHeader. */}
-          {isMobile && <SidebarTrigger />}
-          {/* For desktop, ensure there's an element to push UserProfile right if no mobile trigger */}
-          {!isMobile && <div className="w-7 h-7"> {/* Placeholder for alignment, matches icon button size */}</div>}
-          <div className="flex-1"></div>
+           {/* Mobile-only trigger in main header. */}
+          <SidebarTrigger className="h-7 w-7 md:hidden" /> {/* Use md:hidden to show only on mobile */}
+          
+          <div className="flex-1">
+            {/* Optional: Page Title or Breadcrumbs can go here */}
+            {/* Add pl-10 for desktop if title needs to clear the absolute button, not needed if using flex-1 */}
+          </div>
           <UserProfile />
         </header>
         <main className="flex-1 overflow-auto p-4 md:p-6">
