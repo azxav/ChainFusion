@@ -5,6 +5,7 @@ import React, { useState, useEffect, type ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
+  useSidebar,
   SidebarProvider,
   Sidebar,
   SidebarHeader,
@@ -31,12 +32,12 @@ import {
   Cpu,
   Truck,
   DollarSign,
-  AlertTriangle,
+  AlertTriangle as AlertTriangleIcon,
   Route,
   BarChart3,
   Network,
-  Bot,
-  Settings,
+  Bot as BotIcon,
+  Settings as SettingsIcon,
   SlidersHorizontal,
   FileText,
   RefreshCw,
@@ -47,16 +48,11 @@ import {
   Lightbulb,
   PackageSearch,
   GitFork,
-  DatabaseZap
+  DatabaseZap,
+  PanelLeft
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-// Define SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton components locally
-// as they are used but not exported from the shadcn/ui/sidebar component explicitly in the main export
-// This is a common pattern if they are internal compositions or utility components.
-// If they are meant to be directly used, they should be exported from sidebar.tsx.
-// For now, we'll define them to match their usage structure.
 
 const SidebarMenuSub = React.forwardRef<
   HTMLUListElement,
@@ -81,7 +77,7 @@ const SidebarMenuSubItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <li 
     ref={ref} 
-    className={cn("relative", className)} // Added relative for potential absolute positioning inside
+    className={cn("relative", className)}
     {...props} 
   />
 ));
@@ -98,7 +94,7 @@ const SidebarMenuSubButton = React.forwardRef<
     className={cn(
       "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
       "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
-      "text-sm", // Default size
+      "text-sm", 
       "group-data-[collapsible=icon]:hidden",
       className
     )}
@@ -114,18 +110,18 @@ type NavItem = {
   label: string;
   isSectionTitle?: boolean;
   children?: NavItem[];
-  collapsible?: boolean; // For menu items that can expand/collapse sub-menus
-  defaultOpen?: boolean; // For collapsible menu items
+  collapsible?: boolean; 
+  defaultOpen?: boolean; 
 };
 
 const navItems: NavItem[] = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
-  { isSectionTitle: true, icon: Settings /* Placeholder */, label: 'Core Operations' },
+  { isSectionTitle: true, icon: SettingsIcon /* Placeholder */, label: 'Core Operations' },
   {
     icon: Ship, label: 'Shipments', collapsible: true, defaultOpen: true, children: [
       { href: '/shipments/risk-heatmap', icon: MapPin, label: 'Risk Heatmap' },
       { href: '/shipments/cost-time-simulator', icon: DollarSign, label: 'Cost/Time Simulator' },
-      { href: '/shipments/disruption-replay', icon: AlertTriangle, label: 'Disruption Replay' },
+      { href: '/shipments/disruption-replay', icon: AlertTriangleIcon, label: 'Disruption Replay' },
       { href: '/shipments/explainability', icon: Lightbulb, label: 'Explainability' },
     ]
   },
@@ -137,7 +133,7 @@ const navItems: NavItem[] = [
   },
   {
     icon: Warehouse, label: 'Inventory', collapsible: true, children: [
-      { href: '/inventory/stress-indicators', icon: AlertTriangle, label: 'Stress Indicators' },
+      { href: '/inventory/stress-indicators', icon: AlertTriangleIcon, label: 'Stress Indicators' },
       { href: '/inventory/buffer-stock', icon: RefreshCw, label: 'Buffer Stock Recs' },
       { href: '/inventory/discrepancy-resolution', icon: ClipboardList, label: 'Discrepancy Resolution' },
     ]
@@ -146,14 +142,14 @@ const navItems: NavItem[] = [
     icon: Cpu, label: 'Production & Planning', collapsible: true, children: [
       { href: '/operations/demand-forecaster', icon: BarChart3, label: 'Demand Forecaster' },
       { href: '/operations/auto-replanning', icon: GitFork, label: 'Auto-Replanning' },
-      { href: '/operations/robot-tasks', icon: Bot, label: 'Robot Task Queues' },
+      { href: '/operations/robot-tasks', icon: BotIcon, label: 'Robot Task Queues' },
       { href: '/operations/iot-network', icon: Network, label: 'IoT Network' },
       { href: '/operations/voice-alerts', icon: Volume2, label: 'Voice Alerts' },
       { href: '/operations/reinforcement-planner', icon: Route, label: 'RL Planner (Mock)' },
       { href: '/operations/load-matching', icon: Truck, label: 'Load Matching (Mock)' },
     ]
   },
-  { isSectionTitle: true, icon: Settings /* Placeholder */, label: 'Analytics & AI' },
+  { isSectionTitle: true, icon: SettingsIcon /* Placeholder */, label: 'Analytics & AI' },
   { href: '/analytics/kpi-dashboards', icon: BarChart3, label: 'KPI Dashboards' },
   {
     icon: SlidersHorizontal, label: 'AI Models', collapsible: true, children: [
@@ -161,9 +157,9 @@ const navItems: NavItem[] = [
       { href: '/ai-models/ab-experiments', icon: TestTube2, label: 'A/B Experiments' },
     ]
   },
-  { isSectionTitle: true, icon: Settings /* Placeholder */, label: 'Tools & Settings' },
-  { href: '/communication/chat-ops', icon: Bot, label: 'Chat-Ops Bot' },
-  { href: '/settings', icon: Settings, label: 'Settings (Localization)' },
+  { isSectionTitle: true, icon: SettingsIcon /* Placeholder */, label: 'Tools & Settings' },
+  { href: '/communication/chat-ops', icon: BotIcon, label: 'Chat-Ops Bot' },
+  { href: '/settings', icon: SettingsIcon, label: 'Settings (Localization)' },
 ];
 
 
@@ -171,7 +167,7 @@ function NavMenuItemContent({ item, pathname }: { item: NavItem; pathname: strin
   if (item.isSectionTitle) {
     return <SidebarGroupLabel className="mt-2">{item.label}</SidebarGroupLabel>;
   }
-  if (!item.href) return null; // Should not happen for non-section items
+  if (!item.href) return null; 
 
   return (
     <Link href={item.href} passHref legacyBehavior>
@@ -202,7 +198,7 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
         setIsOpen(true);
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isActiveParent, item.children]); // Adjusted dependencies: isOpen removed to prevent re-renders on its own change
+    }, [isActiveParent, item.children]);
 
     return (
       <SidebarMenuItem>
@@ -243,17 +239,34 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
   );
 }
 
-
-export function AppLayout({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
+function LayoutInternal({ children, pathname }: { children: ReactNode; pathname: string | null }) {
+  const { state: sidebarState, isMobile } = useSidebar();
 
   return (
-    <SidebarProvider defaultOpen>
+    <>
       <Sidebar collapsible="icon">
-        <SidebarHeader className="p-4">
-          <Link href="/" className="flex items-center gap-2 text-sidebar-foreground hover:text-sidebar-primary-foreground">
-            <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
-          </Link>
+        <SidebarHeader className={cn(
+            "flex items-center h-14", 
+            isMobile && "justify-start p-4", 
+            !isMobile && sidebarState === 'expanded' && "justify-start p-4 gap-3", 
+            !isMobile && sidebarState === 'collapsed' && "justify-center p-2" 
+        )}>
+          {isMobile ? (
+            <Link href="/" className="flex items-center gap-2 text-sidebar-foreground hover:text-sidebar-primary-foreground">
+              <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
+            </Link>
+          ) : (
+            <>
+              <SidebarTrigger 
+                className="text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent"
+              />
+              {sidebarState === 'expanded' && (
+                <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
+                  <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
+                </Link>
+              )}
+            </>
+          )}
         </SidebarHeader>
         <SidebarContent>
           <ScrollArea className="h-full">
@@ -281,20 +294,34 @@ export function AppLayout({ children }: { children: ReactNode }) {
         </SidebarContent>
         <SidebarFooter className="p-4">
           <Button variant="ghost" className="w-full justify-start gap-2 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
-            <Settings className="h-4 w-4" />
+            <SettingsIcon className="h-4 w-4" />
             <span>Help & Support</span>
           </Button>
         </SidebarFooter>
       </Sidebar>
       <SidebarInset className="flex flex-col">
-        <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:justify-end sm:px-6 shadow-sm">
-          <SidebarTrigger />
+        <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
+          {/* Mobile-only trigger for the sheet sidebar */}
+          {isMobile && <SidebarTrigger className="md:hidden" />}
+          {/* Flex spacer to push UserProfile to the right */}
+          <div className="flex-1"></div>
           <UserProfile />
         </header>
         <main className="flex-1 overflow-auto p-4 md:p-6">
           {children}
         </main>
       </SidebarInset>
+    </>
+  );
+}
+
+export function AppLayout({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  return (
+    <SidebarProvider defaultOpen>
+      <LayoutInternal pathname={pathname}>
+        {children}
+      </LayoutInternal>
     </SidebarProvider>
   );
 }
