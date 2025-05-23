@@ -75,10 +75,10 @@ const SidebarMenuSubItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<'li'>
 >(({ className, ...props }, ref) => (
-  <li 
-    ref={ref} 
+  <li
+    ref={ref}
     className={cn("relative", className)}
-    {...props} 
+    {...props}
   />
 ));
 SidebarMenuSubItem.displayName = "SidebarMenuSubItem";
@@ -94,7 +94,7 @@ const SidebarMenuSubButton = React.forwardRef<
     className={cn(
       "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
       "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
-      "text-sm", 
+      "text-sm",
       "group-data-[collapsible=icon]:hidden",
       className
     )}
@@ -110,8 +110,8 @@ type NavItem = {
   label: string;
   isSectionTitle?: boolean;
   children?: NavItem[];
-  collapsible?: boolean; 
-  defaultOpen?: boolean; 
+  collapsible?: boolean;
+  defaultOpen?: boolean;
 };
 
 const navItems: NavItem[] = [
@@ -167,7 +167,7 @@ function NavMenuItemContent({ item, pathname }: { item: NavItem; pathname: strin
   if (item.isSectionTitle) {
     return <SidebarGroupLabel className="mt-2">{item.label}</SidebarGroupLabel>;
   }
-  if (!item.href) return null; 
+  if (!item.href) return null;
 
   return (
     <Link href={item.href} passHref legacyBehavior>
@@ -192,7 +192,7 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
 
   if (item.children && item.collapsible) {
     const isActiveParent = item.children.some(child => child.href && pathname?.startsWith(child.href));
-    
+
     useEffect(() => {
       if(isActiveParent && !isOpen) {
         setIsOpen(true);
@@ -229,7 +229,7 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
       </SidebarMenuItem>
     );
   }
-  
+
   if (!item.href) return null;
 
   return (
@@ -245,29 +245,30 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
   return (
     <>
       <Sidebar collapsible="icon">
-        <SidebarHeader className={cn(
-            "flex items-center h-14", 
-            isMobile && "justify-start p-4", 
-            !isMobile && sidebarState === 'expanded' && "justify-start p-4 gap-3", 
-            !isMobile && sidebarState === 'collapsed' && "justify-center p-2" 
-        )}>
-          {isMobile ? (
-            <Link href="/" className="flex items-center gap-2 text-sidebar-foreground hover:text-sidebar-primary-foreground">
-              <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
-            </Link>
-          ) : (
-            <>
-              <SidebarTrigger 
-                className="text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent"
-              />
-              {sidebarState === 'expanded' && (
-                <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
-                  <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
-                </Link>
-              )}
-            </>
-          )}
-        </SidebarHeader>
+         <SidebarHeader className={cn(
+            "flex items-center h-14",
+            // Mobile: Logo only, aligned left
+            isMobile && "justify-start p-4",
+            // Desktop Expanded: Logo only, aligned left
+            !isMobile && sidebarState === 'expanded' && "justify-start p-4",
+            // Desktop Collapsed: Empty, small, centered (icon rail header area)
+            !isMobile && sidebarState === 'collapsed' && "justify-center p-2"
+          )}>
+            {/* Mobile Header Content (in Sheet) */}
+            {isMobile && (
+              <Link href="/" className="flex items-center gap-2 text-sidebar-foreground hover:text-sidebar-primary-foreground">
+                <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
+              </Link>
+            )}
+
+            {/* Desktop Expanded Sidebar Header Content */}
+            {!isMobile && sidebarState === 'expanded' && (
+              <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
+                <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
+              </Link>
+            )}
+            {/* Desktop Collapsed Sidebar Header Content - empty as trigger is now outside */}
+          </SidebarHeader>
         <SidebarContent>
           <ScrollArea className="h-full">
             <SidebarMenu>
@@ -300,9 +301,9 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
         </SidebarFooter>
       </Sidebar>
       <SidebarInset className="flex flex-col">
-        <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
-          {/* Mobile-only trigger for the sheet sidebar */}
-          {isMobile && <SidebarTrigger className="md:hidden" />}
+        <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
+          {/* SidebarTrigger is now always here and visible on all screen sizes */}
+          <SidebarTrigger />
           {/* Flex spacer to push UserProfile to the right */}
           <div className="flex-1"></div>
           <UserProfile />
@@ -318,7 +319,7 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
 export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   return (
-    <SidebarProvider defaultOpen>
+    <SidebarProvider defaultOpen> {/* Ensure defaultOpen is true if you want it open by default */}
       <LayoutInternal pathname={pathname}>
         {children}
       </LayoutInternal>
