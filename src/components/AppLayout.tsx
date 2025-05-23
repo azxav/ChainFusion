@@ -49,7 +49,7 @@ import {
   DatabaseZap
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { cn } from '@/lib/utils'; // Added this import
+import { cn } from '@/lib/utils';
 
 // Define SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton components locally
 // as they are used but not exported from the shadcn/ui/sidebar component explicitly in the main export
@@ -250,7 +250,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
       <Sidebar>
         <SidebarHeader className="p-4">
           <Link href="/" className="flex items-center gap-2 text-sidebar-foreground hover:text-sidebar-primary-foreground">
-            <Logo className="h-8 w-auto text-sidebar-primary-foreground" />
+            <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
           </Link>
         </SidebarHeader>
         <SidebarContent>
