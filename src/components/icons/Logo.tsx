@@ -10,13 +10,12 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       {...props}
     >
       <rect width="200" height="50" fill="transparent" />
-      {/* <path d="M10 40 L20 10 L30 40 L40 10 L50 40" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" /> */}
       <text
         x="10" // Adjusted x-coordinate
         y="35"
-        fontFamily="var(--font-geist-sans)"
-        fontSize="30"
-        fontWeight="bold"
+        font-family="var(--font-geist-sans)"
+        font-size="30"
+        font-weight="bold"
         fill="currentColor"
       >
         ChainFusion
