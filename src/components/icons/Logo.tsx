@@ -13,10 +13,9 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       <text
         x="10" // Adjusted x-coordinate
         y="35"
-        fontFamily="var(--font-geist-sans)"
         fontSize="30"
         fontWeight="bold"
-        fill="hsl(var(--sidebar-primary-foreground))"
+        fill="currentColor"
       >
         ChainFusion
       </text>
