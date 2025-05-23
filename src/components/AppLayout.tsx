@@ -49,6 +49,7 @@ import {
   DatabaseZap
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils'; // Added this import
 
 // Define SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton components locally
 // as they are used but not exported from the shadcn/ui/sidebar component explicitly in the main export
@@ -199,7 +200,7 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
       if(isActiveParent && !isOpen) {
         setIsOpen(true);
       }
-    }, [isActiveParent, isOpen]); // Removed setIsOpen from dependency array as it's a setter
+    }, [isActiveParent, isOpen]);
 
     return (
       <SidebarMenuItem>
@@ -295,5 +296,3 @@ export function AppLayout({ children }: { children: ReactNode }) {
     </SidebarProvider>
   );
 }
-
-    
