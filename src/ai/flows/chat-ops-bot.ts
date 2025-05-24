@@ -14,29 +14,17 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 // Import functions and schemas for the tools
-import { getSupplierVitalityScore } from './supplier-vitality-scorecards';
-import { 
-    SupplierVitalityScoreInputSchema,
-    SupplierVitalityScoreOutputSchema
-} from './types/supplier-vitality-types';
+import { getSupplierVitalityScore, SupplierVitalityScoreInputSchema, SupplierVitalityScoreOutputSchema } from './supplier-vitality-scorecards';
 
-import { getInventoryStressIndicators } from './inventory-stress-indicators';
-import { 
-    InventoryStressIndicatorsInputSchema,
-    InventoryStressIndicatorsOutputSchema 
-} from './types/inventory-stress-types';
 
-import { disruptionReplayAndForecast } from './disruption-replay-and-forecast';
-import { 
-    DisruptionReplayAndForecastInputSchema, 
-    DisruptionReplayAndForecastOutputSchema 
-} from './types/disruption-replay-types';
+import { getInventoryStressIndicators, InventoryStressIndicatorsInputSchema, InventoryStressIndicatorsOutputSchema } from './inventory-stress-indicators';
 
-import { findAlternativeSuppliers } from './alternative-sourcing-engine';
-import {
-    FindAlternativeSuppliersInputSchema,
-    FindAlternativeSuppliersOutputSchema
-} from './types/alternative-sourcing-types';
+
+import { disruptionReplayAndForecast, DisruptionReplayAndForecastInputSchema, DisruptionReplayAndForecastOutputSchema } from './disruption-replay-and-forecast';
+
+
+import { findAlternativeSuppliers, FindAlternativeSuppliersInputSchema, FindAlternativeSuppliersOutputSchema } from './alternative-sourcing-engine';
+
 
 
 // Define Tools
@@ -159,7 +147,7 @@ When a user asks a question or makes a request:
     b. If essential parameters are missing or ambiguous for the chosen tool, **YOU MUST ask the user clarifying questions** to gather the required information before attempting to call the tool. For example, if the user asks for supplier vitality without naming one, ask "Which supplier's vitality score are you interested in?". If they ask to find alternatives without part details, ask for the part name, quantity needed, and due date.
     c. Once you have the necessary inputs, call the tool.
     d. After the tool provides its output (which will be structured data), **synthesize this information into a clear, concise, and conversational response for the user.** Do not just dump raw JSON. Highlight key findings and present them in an easy-to-understand paragraph or bullet points. For example, if 'getSupplierVitalityScore' returns a score and recommendations, say something like "Supplier X (Tashkent Branch) has a vitality score of Y. The system flags a key risk related to Z, and it's recommended to A and B based on our latest data."
-4. If no tool is suitable for the user's query, or if the query is a general question (e.g., "What's the risk on Semiconductor Batch #1234?", "Show me all shipments delayed over 12 hours"), try to answer directly based on your knowledge or by generating a plausible, detailed response as if querying a live database. For example, for "Batch #1234", you might respond: "Semiconductor Batch #1234 (Origin: Almalik Silicon Plant, Destination: Chirchik Assembly) currently shows a low-risk profile. Estimated arrival is on schedule for 2024-07-25. No adverse weather or customs flags reported on its route via the A373 highway."
+4. If no tool is suitable for the user's query, or if the query is a general question (e.g., "What's the risk on Semiconductor Batch #1234?", "Show me all shipments delayed over 12 hours", "What's our average on-time delivery rate this quarter?"), **you MUST generate a plausible, detailed response as if querying a live, comprehensive database.** This response should include specific, realistic-sounding data, statistics, or status updates relevant to the Tashkent Vision context. For example, if asked about "Batch #1234", you might respond: "Semiconductor Batch #SC-UZ-1234 (Origin: Almalik Silicon Plant, Destination: Chirchik Assembly) currently shows a low-risk profile with a 98.5% on-time probability. Estimated arrival is on schedule for 2024-07-25 via Route M39. No adverse weather or customs flags reported." If asked for a statistic like "average on-time delivery", you could say: "Our current average on-time delivery rate for this quarter (Q3 2024) is 96.2%, with 1,250 successful deliveries out of 1,300 shipments processed through the Tashkent hub. This is a 0.5% improvement over Q2." Always present this information confidently as if it's real data.
 5. Always maintain a professional, helpful, and slightly formal tone suitable for a business context in Uzbekistan.
 
 User Query: {{{query}}}
