@@ -13,18 +13,17 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-// Import functions and schemas for the tools
-import { getSupplierVitalityScore, SupplierVitalityScoreInputSchema, SupplierVitalityScoreOutputSchema } from './supplier-vitality-scorecards';
+// Import functions for the tools
+import { getSupplierVitalityScore } from './supplier-vitality-scorecards';
+import { getInventoryStressIndicators } from './inventory-stress-indicators';
+import { disruptionReplayAndForecast } from './disruption-replay-and-forecast';
+import { findAlternativeSuppliers } from './alternative-sourcing-engine';
 
-
-import { getInventoryStressIndicators, InventoryStressIndicatorsInputSchema, InventoryStressIndicatorsOutputSchema } from './inventory-stress-indicators';
-
-
-import { disruptionReplayAndForecast, DisruptionReplayAndForecastInputSchema, DisruptionReplayAndForecastOutputSchema } from './disruption-replay-and-forecast';
-
-
-import { findAlternativeSuppliers, FindAlternativeSuppliersInputSchema, FindAlternativeSuppliersOutputSchema } from './alternative-sourcing-engine';
-
+// Import Zod schemas for the tools from their dedicated type files
+import { SupplierVitalityScoreInputSchema, SupplierVitalityScoreOutputSchema } from './types/supplier-vitality-types';
+import { InventoryStressIndicatorsInputSchema, InventoryStressIndicatorsOutputSchema } from './types/inventory-stress-types';
+import { DisruptionReplayAndForecastInputSchema, DisruptionReplayAndForecastOutputSchema } from './types/disruption-replay-types';
+import { FindAlternativeSuppliersInputSchema, FindAlternativeSuppliersOutputSchema } from './types/alternative-sourcing-types';
 
 
 // Define Tools
@@ -167,4 +166,3 @@ const chatOpsBotFlow = ai.defineFlow(
     return output!;
   }
 );
-
