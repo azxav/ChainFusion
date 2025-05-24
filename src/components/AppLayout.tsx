@@ -266,7 +266,7 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
               </>
             )}
              {!isMobile && sidebarState === 'collapsed' && (
-               null 
+               null // No logo or trigger here when collapsed, trigger is outside
             )}
           </SidebarHeader>
         <SidebarContent>
@@ -339,5 +339,3 @@ export function AppLayout({ children }: { children: ReactNode }) {
     </SidebarProvider>
   );
 }
-
-    
