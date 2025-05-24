@@ -126,20 +126,20 @@ const navItems: NavItem[] = [
     ]
   },
   {
-    icon: Users, label: 'Suppliers', collapsible: true, children: [
+    icon: Users, label: 'Suppliers', collapsible: true, defaultOpen: false, children: [
       { href: '/suppliers/vitality-scorecards', icon: FileText, label: 'Vitality Scorecards' },
       { href: '/suppliers/alternative-sourcing', icon: PackageSearch, label: 'Alternative Sourcing' },
     ]
   },
   {
-    icon: Warehouse, label: 'Inventory', collapsible: true, children: [
+    icon: Warehouse, label: 'Inventory', collapsible: true, defaultOpen: false, children: [
       { href: '/inventory/stress-indicators', icon: AlertTriangleIcon, label: 'Stress Indicators' },
       { href: '/inventory/buffer-stock', icon: RefreshCw, label: 'Buffer Stock Recs' },
       { href: '/inventory/discrepancy-resolution', icon: ClipboardList, label: 'Discrepancy Resolution' },
     ]
   },
   {
-    icon: Cpu, label: 'Production & Planning', collapsible: true, children: [
+    icon: Cpu, label: 'Production & Planning', collapsible: true, defaultOpen: false, children: [
       { href: '/operations/demand-forecaster', icon: BarChart3, label: 'Demand Forecaster' },
       { href: '/operations/auto-replanning', icon: GitFork, label: 'Auto-Replanning' },
       { href: '/operations/robot-tasks', icon: BotIcon, label: 'Robot Task Queues' },
@@ -152,7 +152,7 @@ const navItems: NavItem[] = [
   { isSectionTitle: true, icon: SettingsIcon /* Placeholder */, label: 'Analytics & AI' },
   { href: '/analytics/kpi-dashboards', icon: BarChart3, label: 'KPI Dashboards' },
   {
-    icon: SlidersHorizontal, label: 'AI Models', collapsible: true, children: [
+    icon: SlidersHorizontal, label: 'AI Models', collapsible: true, defaultOpen: false, children: [
       { href: '/ai-models/data-drift', icon: DatabaseZap, label: 'Data Drift Detection' },
       { href: '/ai-models/ab-experiments', icon: TestTube2, label: 'A/B Experiments' },
     ]
@@ -247,9 +247,9 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
       <Sidebar collapsible="icon">
          <SidebarHeader className={cn(
             "flex items-center h-14",
-            isMobile && "justify-start p-4", 
-            !isMobile && sidebarState === 'expanded' && "justify-between p-4", 
-            !isMobile && sidebarState === 'collapsed' && "justify-center p-2 h-14" 
+            isMobile && "justify-start p-4", // Mobile: Logo left, no trigger here
+            !isMobile && sidebarState === 'expanded' && "justify-between p-4", // Desktop Expanded: Logo left, Trigger right
+            !isMobile && sidebarState === 'collapsed' && "justify-center p-2 h-14"  // Desktop Collapsed: Trigger centered
           )}>
             {/* Mobile Header Content (in Sheet) */}
             {isMobile && (
@@ -264,12 +264,12 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
                 <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
                   <Logo className="h-6 w-auto" />
                 </Link>
-                 {/* Trigger moved to main header for desktop */}
+                {/* Desktop trigger is now outside */}
               </>
             )}
             {/* Desktop Collapsed Sidebar Header: Show only trigger */}
             {!isMobile && sidebarState === 'collapsed' && (
-               <div /> // Empty div, trigger is in main header
+               <div /> // Empty, main trigger is outside
             )}
           </SidebarHeader>
         <SidebarContent>
@@ -303,19 +303,32 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
           </Button>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="flex flex-col relative"> {/* Added relative for potential absolute positioning inside */}
+      <SidebarInset className="flex flex-col relative">
         
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
-          {/* Universal trigger for both mobile and desktop */}
-          <SidebarTrigger className="h-7 w-7" />
+           {/* Mobile-only trigger in main header */}
+          <SidebarTrigger className="h-7 w-7 md:hidden" />
           
           <div className="flex-1">
             {/* Optional: Page Title or Breadcrumbs can go here */}
           </div>
           <UserProfile />
         </header>
+        
+        {/* Desktop-only trigger positioned over main content */}
+        {!isMobile && (
+          <SidebarTrigger 
+            className="absolute top-3.5 left-4 z-20 h-7 w-7 hidden md:flex text-muted-foreground hover:text-foreground"
+            variant="ghost"
+            size="icon"
+          />
+        )}
+
         <main className="flex-1 overflow-auto p-4 md:p-6">
-          {children}
+          {/* Adjust left padding on desktop if sidebar is expanded, to prevent trigger overlap */}
+          <div className={cn(!isMobile && sidebarState === 'expanded' ? "md:pl-10" : "")}> 
+             {children}
+          </div>
         </main>
       </SidebarInset>
     </>
@@ -332,3 +345,4 @@ export function AppLayout({ children }: { children: ReactNode }) {
     </SidebarProvider>
   );
 }
+
