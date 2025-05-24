@@ -54,9 +54,6 @@ const prompt = ai.definePrompt({
 
   Based on the above information, please provide a ranked list of alternative suppliers with their fit, capacity, and risk scores, and a draft PO amendment.
   Ensure that the poAmendmentDraft includes the correct quantity, part name, and due date.
-
-  Return the data in the following JSON format:
-  {{$type: FindAlternativeSuppliersOutput}}
   `,
 });
 
