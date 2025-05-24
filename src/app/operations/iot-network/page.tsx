@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -9,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Search, Wifi, Barcode, Eye, CheckCircle2, AlertCircle, RefreshCcw } from 'lucide-react';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button'; // Added import
 
 interface TrackedPart {
   id: string;
