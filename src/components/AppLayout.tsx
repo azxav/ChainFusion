@@ -247,29 +247,21 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
       <Sidebar collapsible="icon">
          <SidebarHeader className={cn(
             "flex items-center h-14",
-            isMobile && "justify-start p-4", // Mobile: Logo left, no trigger here
-            !isMobile && sidebarState === 'expanded' && "justify-between p-4", // Desktop Expanded: Logo left, Trigger right
-            !isMobile && sidebarState === 'collapsed' && "justify-center p-2 h-14"  // Desktop Collapsed: Trigger centered
+            isMobile && "justify-start p-4", 
+            !isMobile && sidebarState === 'expanded' && "justify-between p-4", 
+            !isMobile && sidebarState === 'collapsed' && "justify-center p-2 h-14" 
           )}>
-            {/* Mobile Header Content (in Sheet) */}
             {isMobile && (
               <Link href="/" className="flex items-center gap-2 text-sidebar-foreground hover:text-sidebar-primary-foreground">
                 <Logo className="h-6 w-auto" />
               </Link>
             )}
-
-            {/* Desktop Expanded Sidebar Header Content */}
             {!isMobile && sidebarState === 'expanded' && (
               <>
                 <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
                   <Logo className="h-6 w-auto" />
                 </Link>
-                {/* Desktop trigger is now outside */}
               </>
-            )}
-            {/* Desktop Collapsed Sidebar Header: Show only trigger */}
-            {!isMobile && sidebarState === 'collapsed' && (
-               <div /> // Empty, main trigger is outside
             )}
           </SidebarHeader>
         <SidebarContent>
@@ -306,11 +298,11 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
       <SidebarInset className="flex flex-col relative">
         
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
-           {/* Mobile-only trigger in main header */}
-          <SidebarTrigger className="h-7 w-7 md:hidden" />
+          {/* Mobile-only trigger */}
+          <SidebarTrigger className="h-7 w-7 md:hidden text-muted-foreground hover:text-foreground" />
           
           <div className="flex-1">
-            {/* Optional: Page Title or Breadcrumbs can go here */}
+            {/* Optional: Page Title or Breadcrumbs */}
           </div>
           <UserProfile />
         </header>
@@ -325,7 +317,6 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
         )}
 
         <main className="flex-1 overflow-auto p-4 md:p-6">
-          {/* Adjust left padding on desktop if sidebar is expanded, to prevent trigger overlap */}
           <div className={cn(!isMobile && sidebarState === 'expanded' ? "md:pl-10" : "")}> 
              {children}
           </div>
@@ -338,11 +329,8 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
 export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   return (
-    <SidebarProvider defaultOpen> {/* defaultOpen true means sidebar is expanded by default on desktop */}
-      <LayoutInternal pathname={pathname}>
-        {children}
-      </LayoutInternal>
+    <SidebarProvider defaultOpen> 
+      <LayoutInternal pathname={pathname} children={children} />
     </SidebarProvider>
   );
 }
-
