@@ -263,6 +263,9 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
                 </Link>
               </>
             )}
+             {!isMobile && sidebarState === 'collapsed' && (
+               null // No logo or trigger in collapsed sidebar header now
+            )}
           </SidebarHeader>
         <SidebarContent>
           <ScrollArea className="h-full">
@@ -334,3 +337,5 @@ export function AppLayout({ children }: { children: ReactNode }) {
     </SidebarProvider>
   );
 }
+
+    
