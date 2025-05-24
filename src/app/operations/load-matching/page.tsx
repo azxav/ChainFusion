@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, type FormEvent } from 'react';
@@ -111,7 +112,7 @@ export default function LoadMatchingPage() {
                 <Label htmlFor="partType">Part Type / Description</Label>
                 <Input id="partType" name="partType" value={orderDetails.partType} onChange={handleInputChange} placeholder="e.g., Engine Control Units" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                  <div>
                     <Label htmlFor="quantity">Quantity</Label>
                     <Input id="quantity" name="quantity" type="number" value={orderDetails.quantity} onChange={handleInputChange} placeholder="e.g., 50" />

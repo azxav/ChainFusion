@@ -151,21 +151,21 @@ export default function KpiDashboardsPage() {
       />
       
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
           <TabsTrigger value="overview">Overview KPIs</TabsTrigger>
-          <TabsTrigger value="operational">Operational Performance</TabsTrigger>
+          <TabsTrigger value="operational">Operational</TabsTrigger>
           <TabsTrigger value="financial">Financial & Efficiency</TabsTrigger>
           <TabsTrigger value="logistics">Logistics & Fulfillment</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mt-4">
+          <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-4">
             {overviewKpiData.map(kpi => <KpiCard key={kpi.title} {...kpi} />)}
           </div>
         </TabsContent>
 
         <TabsContent value="operational">
-           <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 mt-4">
+           <div className="grid gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2 mt-4">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><TrendingUp className="h-5 w-5 text-primary"/> Production Line Uptime (%)</CardTitle>
@@ -204,7 +204,7 @@ export default function KpiDashboardsPage() {
                 </ChartContainer>
               </CardContent>
             </Card>
-            <Card className="lg:col-span-2"> {/* Spans full width on large screens */}
+            <Card className="lg:col-span-2"> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><Percent className="h-5 w-5 text-primary"/> Capacity Utilization (%)</CardTitle>
                 <CardDescription>Monthly actual vs. simulated production capacity utilization.</CardDescription>
@@ -227,10 +227,10 @@ export default function KpiDashboardsPage() {
         </TabsContent>
 
         <TabsContent value="financial">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mt-4">
+          <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-4">
             {efficiencyKpiData.map(kpi => <KpiCard key={kpi.title} {...kpi} />)}
           </div>
-          <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 mt-6">
+          <div className="grid gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2 mt-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><DollarSign className="h-5 w-5 text-primary"/>Operational Cost Breakdown</CardTitle>
@@ -275,10 +275,10 @@ export default function KpiDashboardsPage() {
         </TabsContent>
         
         <TabsContent value="logistics">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mt-4">
+          <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-4">
             {logisticsKpiData.map(kpi => <KpiCard key={kpi.title} {...kpi} />)}
           </div>
-           <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 mt-6">
+           <div className="grid gap-4 md:gap-6 md:grid-cols-1 lg:grid-cols-2 mt-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><CheckCircle className="h-5 w-5 text-primary"/>On-Time Delivery (OTD) Rate (%)</CardTitle>

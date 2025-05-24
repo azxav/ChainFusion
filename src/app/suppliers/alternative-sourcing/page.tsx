@@ -60,10 +60,7 @@ export default function AlternativeSourcingPage() {
       if (score <= 3) { variant = "default"; className="bg-green-500/80 hover:bg-green-600/90 text-white"; label = `${score.toFixed(1)} (Low)`;}
       else if (score <= 7) { variant = "secondary"; className="bg-yellow-500/80 hover:bg-yellow-600/90 text-black"; label = `${score.toFixed(1)} (Med)`;}
       else { variant = "destructive"; label = `${score.toFixed(1)} (High)`;}
-    } else { // Higher is better for fit/capacity (assuming 0-1 or 0-100 normalized by AI)
-        // Assuming scores are 0-1 or need normalization, let's treat score as a raw value.
-        // For demo, let's use a simple threshold logic.
-        // If AI returns > 1, it's likely a percentage.
+    } else { 
         const displayScore = score > 1 ? score : score * 100;
         if (displayScore >= 75) { variant = "default"; className="bg-green-500/80 hover:bg-green-600/90 text-white"; }
         else if (displayScore >= 50) { variant = "secondary"; className="bg-yellow-500/80 hover:bg-yellow-600/90 text-black";}
@@ -93,7 +90,7 @@ export default function AlternativeSourcingPage() {
                 <Label htmlFor="partName">Part Name/Number</Label>
                 <Input id="partName" name="partName" value={formData.partName} onChange={handleChange} placeholder="e.g., HX-5000 GPU" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="quantity">Quantity Needed</Label>
                   <Input id="quantity" name="quantity" type="number" value={formData.quantity} onChange={handleChange} placeholder="e.g., 1000" />
@@ -193,4 +190,3 @@ export default function AlternativeSourcingPage() {
     </div>
   );
 }
-

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, type FormEvent, useEffect } from 'react';
@@ -33,7 +34,6 @@ export default function CostTimeSimulatorPage() {
   };
   
   useEffect(() => {
-    // Ensure slider value does not exceed original delivery time
     if (timeReduction[0] >= formData.originalDeliveryTime) {
       setTimeReduction([Math.max(0, formData.originalDeliveryTime -1)]);
     }
@@ -87,7 +87,7 @@ export default function CostTimeSimulatorPage() {
                 <Label htmlFor="shipmentDetails">Shipment Details</Label>
                 <Textarea id="shipmentDetails" name="shipmentDetails" value={formData.shipmentDetails} onChange={handleInputChange} placeholder="Origin, destination, weight, dimensions..." rows={3} />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="originalDeliveryTime">Original Delivery Time (hours)</Label>
                   <Input id="originalDeliveryTime" name="originalDeliveryTime" type="number" value={formData.originalDeliveryTime} onChange={handleInputChange} placeholder="e.g., 48" />

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, type FormEvent } from 'react';
@@ -55,8 +56,8 @@ export default function RiskHeatmapPage() {
   
   const getRiskBadgeVariant = (riskScore: number): "default" | "secondary" | "destructive" | "outline" => {
     if (riskScore > 0.7) return "destructive";
-    if (riskScore > 0.4) return "secondary"; // Typically yellow, but shadcn secondary is gray. We'll use default for medium.
-    return "default"; // Green (shadcn default is primary based)
+    if (riskScore > 0.4) return "secondary"; 
+    return "default"; 
   };
 
 
@@ -84,7 +85,7 @@ export default function RiskHeatmapPage() {
                     <Label htmlFor={`shipmentId-${index}`}>Shipment ID</Label>
                     <Input id={`shipmentId-${index}`} value={shipment.shipmentId} onChange={(e) => handleShipmentChange(index, 'shipmentId', e.target.value)} placeholder="e.g., SHP123" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <Label htmlFor={`origin-${index}`}>Origin</Label>
                       <Input id={`origin-${index}`} value={shipment.origin} onChange={(e) => handleShipmentChange(index, 'origin', e.target.value)} placeholder="e.g., Tashkent, UZ" />
@@ -98,7 +99,7 @@ export default function RiskHeatmapPage() {
                     <Label htmlFor={`currentLocation-${index}`}>Current Location</Label>
                     <Input id={`currentLocation-${index}`} value={shipment.currentLocation} onChange={(e) => handleShipmentChange(index, 'currentLocation', e.target.value)} placeholder="e.g., En route near Shymkent" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                      <div className="space-y-1">
                         <Label htmlFor={`estimatedDeparture-${index}`}>Est. Departure</Label>
                         <Input id={`estimatedDeparture-${index}`} type="datetime-local" value={shipment.estimatedDeparture.substring(0,16)} onChange={(e) => handleShipmentChange(index, 'estimatedDeparture', new Date(e.target.value).toISOString())} />

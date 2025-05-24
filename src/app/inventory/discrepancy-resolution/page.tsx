@@ -54,7 +54,6 @@ export default function DiscrepancyResolutionPage() {
     }
     if (formData.actualCount === formData.expectedCount) {
         toast({ title: 'No Discrepancy', description: 'Expected and actual counts are the same.', variant: 'default' });
-        // Potentially clear results or show a specific message for no discrepancy
         setResolution({ likelyErrorSources: ["No discrepancy found based on input."], workOrderDescription: "No work order needed as counts match."});
         setIsLoading(false);
         return;
@@ -102,7 +101,7 @@ export default function DiscrepancyResolutionPage() {
                 <Label htmlFor="location" className="flex items-center gap-1"><MapPin className="h-4 w-4 text-primary" /> Location</Label>
                 <Input id="location" name="location" value={formData.location} onChange={handleChange} placeholder="e.g., Warehouse A, Shelf 3, Bin 2" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="expectedCount" className="flex items-center gap-1"><ListChecks className="h-4 w-4 text-primary" /> Expected Count</Label>
                   <Input id="expectedCount" name="expectedCount" type="number" value={formData.expectedCount} onChange={handleChange} placeholder="e.g., 100" />
@@ -194,5 +193,3 @@ export default function DiscrepancyResolutionPage() {
     </div>
   );
 }
-
-    

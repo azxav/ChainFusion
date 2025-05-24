@@ -64,7 +64,7 @@ const SidebarMenuSub = React.forwardRef<
     ref={ref}
     data-sidebar="menu-sub"
     className={cn(
-      "flex min-w-0 flex-col gap-1 py-0.5", // Removed mx-3.5, border-l, px-2.5, translate-x-px
+      "flex min-w-0 flex-col gap-1 py-0.5", 
       "group-data-[collapsible=icon]:hidden",
       className
     )}
@@ -200,7 +200,7 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
         setIsOpen(true);
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isActiveParent, item.children]); // isOpen removed to prevent re-triggering on manual close
+    }, [isActiveParent, item.children]); 
 
     return (
       <SidebarMenuItem>
@@ -253,20 +253,21 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
             !isMobile && sidebarState === 'expanded' && "justify-between p-4", 
             !isMobile && sidebarState === 'collapsed' && "justify-center p-2 h-14" 
           )}>
+            {/* Mobile: Only Logo */}
             {isMobile && (
               <Link href="/" className="flex items-center gap-2 text-sidebar-foreground hover:text-sidebar-primary-foreground">
                 <Logo className="h-6 w-auto" />
               </Link>
             )}
+            {/* Desktop Expanded: Logo on left, (No trigger here anymore) */}
             {!isMobile && sidebarState === 'expanded' && (
-              <>
-                <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
-                  <Logo className="h-6 w-auto" />
-                </Link>
-              </>
+              <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
+                <Logo className="h-6 w-auto" />
+              </Link>
             )}
+             {/* Desktop Collapsed: Header is minimal, trigger is external */}
              {!isMobile && sidebarState === 'collapsed' && (
-               null // No logo or trigger here when collapsed, trigger is outside
+               null 
             )}
           </SidebarHeader>
         <SidebarContent>
@@ -304,7 +305,7 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
         
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
           {/* Mobile-only trigger */}
-          <SidebarTrigger className="h-7 w-7 md:hidden text-muted-foreground hover:text-foreground" />
+          <SidebarTrigger className="h-7 w-7 md:hidden text-muted-foreground hover:text-foreground flex" />
           
           <div className="flex-1">
             {/* Optional: Page Title or Breadcrumbs */}
@@ -315,14 +316,15 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
         {/* Desktop-only trigger positioned over main content */}
         {!isMobile && (
           <SidebarTrigger 
-            className="absolute top-3.5 left-4 z-20 h-7 w-7 hidden md:flex text-muted-foreground hover:text-foreground"
+            className="absolute top-3.5 left-4 z-20 h-7 w-7 md:flex hidden text-muted-foreground hover:text-foreground"
             variant="ghost"
             size="icon"
           />
         )}
 
         <main className="flex-1 overflow-auto p-4 md:p-6">
-          <div className={cn(!isMobile && sidebarState === 'expanded' ? "md:pl-10" : "")}> 
+          {/* Removed conditional padding md:pl-10 to simplify layout with external trigger */}
+          <div> 
              {children}
           </div>
         </main>
