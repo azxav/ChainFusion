@@ -161,8 +161,13 @@ const chatOpsBotFlow = ai.defineFlow(
     inputSchema: ChatOpsBotInputSchema,
     outputSchema: ChatOpsBotOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
+  async (input): Promise<ChatOpsBotOutput> => {
+    const result = await prompt(input);
+    if (!result.output) {
+      console.warn('ChatOpsBot: LLM returned null output. Falling back to default response.', input);
+      return { response: "I'm sorry, I encountered an issue generating a response. Could you please try rephrasing your query?" };
+    }
+    return result.output;
   }
 );
+
