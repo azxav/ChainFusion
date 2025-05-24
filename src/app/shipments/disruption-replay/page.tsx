@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, type FormEvent } from 'react';
@@ -11,7 +10,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { ListChecks, Clock, Zap, Loader2, AlertTriangle, FileText, ShieldAlert, Factory, Lightbulb, Wrench } from 'lucide-react';
-import { disruptionReplayAndForecast, type DisruptionReplayAndForecastInput, type DisruptionReplayAndForecastOutput } from '@/ai/flows/disruption-replay-and-forecast';
+import { disruptionReplayAndForecast } from '@/ai/flows/disruption-replay-and-forecast';
+import { 
+  type DisruptionReplayAndForecastInput, 
+  type DisruptionReplayAndForecastOutput 
+} from '@/ai/flows/types/disruption-replay-types';
 import { useToast } from '@/hooks/use-toast';
 
 const disruptionTypes = [
@@ -200,5 +203,3 @@ export default function DisruptionReplayPage() {
     </div>
   );
 }
-
-    

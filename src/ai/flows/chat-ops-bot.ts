@@ -13,26 +13,30 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 // Import functions and schemas for the tools
+import { getSupplierVitalityScore } from './supplier-vitality-scorecards';
 import { 
-  getSupplierVitalityScore, 
-  SupplierVitalityScoreInputSchema,
-  SupplierVitalityScoreOutputSchema 
-} from './supplier-vitality-scorecards';
+    SupplierVitalityScoreInputSchema,
+    SupplierVitalityScoreOutputSchema
+} from './types/supplier-vitality-types';
+
+import { getInventoryStressIndicators } from './inventory-stress-indicators';
 import { 
-  getInventoryStressIndicators, 
-  InventoryStressIndicatorsInputSchema,
-  InventoryStressIndicatorsOutputSchema 
-} from './inventory-stress-indicators';
+    InventoryStressIndicatorsInputSchema,
+    InventoryStressIndicatorsOutputSchema 
+} from './types/inventory-stress-types';
+
+import { disruptionReplayAndForecast } from './disruption-replay-and-forecast';
 import { 
-  disruptionReplayAndForecast, 
-  DisruptionReplayAndForecastInputSchema, 
-  DisruptionReplayAndForecastOutputSchema 
-} from './disruption-replay-and-forecast';
-import { 
-  findAlternativeSuppliers, 
-  FindAlternativeSuppliersInputSchema,
-  FindAlternativeSuppliersOutputSchema
-} from './alternative-sourcing-engine';
+    DisruptionReplayAndForecastInputSchema, 
+    DisruptionReplayAndForecastOutputSchema 
+} from './types/disruption-replay-types';
+
+import { findAlternativeSuppliers } from './alternative-sourcing-engine';
+import {
+    FindAlternativeSuppliersInputSchema,
+    FindAlternativeSuppliersOutputSchema
+} from './types/alternative-sourcing-types';
+
 
 // Define Tools
 

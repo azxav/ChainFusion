@@ -9,7 +9,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
 import { AlertTriangle, Clock, Loader2 } from 'lucide-react';
-import { getInventoryStressIndicators, type InventoryStressIndicatorsInput, type InventoryStressIndicatorsOutput } from '@/ai/flows/inventory-stress-indicators';
+import { getInventoryStressIndicators } from '@/ai/flows/inventory-stress-indicators';
+import { 
+  type InventoryStressIndicatorsInput, 
+  type InventoryStressIndicatorsOutput 
+} from '@/ai/flows/types/inventory-stress-types';
 import { useToast } from '@/hooks/use-toast';
 
 export default function InventoryStressIndicatorsPage() {

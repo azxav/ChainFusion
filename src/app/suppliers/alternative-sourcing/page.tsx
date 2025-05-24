@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, type FormEvent } from 'react';
@@ -11,7 +10,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Loader2, Search, PackageSearch, FileText, Users, CheckCircle, AlertTriangle, BarChartBig } from 'lucide-react';
-import { findAlternativeSuppliers, type FindAlternativeSuppliersInput, type FindAlternativeSuppliersOutput } from '@/ai/flows/alternative-sourcing-engine';
+import { findAlternativeSuppliers } from '@/ai/flows/alternative-sourcing-engine';
+import { 
+  type FindAlternativeSuppliersInput, 
+  type FindAlternativeSuppliersOutput 
+} from '@/ai/flows/types/alternative-sourcing-types';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 

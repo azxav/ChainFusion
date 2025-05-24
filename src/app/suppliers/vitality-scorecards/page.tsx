@@ -9,7 +9,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
 import { FileText, Loader2, Zap } from 'lucide-react';
-import { getSupplierVitalityScore, type SupplierVitalityScoreInput, type SupplierVitalityScoreOutput } from '@/ai/flows/supplier-vitality-scorecards';
+import { getSupplierVitalityScore } from '@/ai/flows/supplier-vitality-scorecards';
+import { 
+  type SupplierVitalityScoreInput,
+  type SupplierVitalityScoreOutput 
+} from '@/ai/flows/types/supplier-vitality-types';
 import { useToast } from '@/hooks/use-toast';
 
 export default function SupplierVitalityScorecardsPage() {
