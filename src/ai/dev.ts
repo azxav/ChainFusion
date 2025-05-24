@@ -1,5 +1,9 @@
+
 import { config } from 'dotenv';
 config();
+
+// This import should be first in this list to ensure the AI object is initialized.
+import '@/ai/genkit'; 
 
 import '@/ai/flows/disruption-replay-and-forecast.ts';
 import '@/ai/flows/risk-heatmap-alerts.ts';
@@ -16,3 +20,5 @@ import '@/ai/flows/inventory-stress-indicators.ts';
 import '@/ai/flows/automated-buffer-stock-recommendations.ts';
 import '@/ai/flows/automated-discrepancy-resolution.ts';
 import '@/ai/flows/robot-ready-task-queues.ts';
+
+    

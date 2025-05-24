@@ -49,6 +49,7 @@ import {
   PackageSearch,
   GitFork,
   DatabaseZap,
+  PanelLeft,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -117,7 +118,7 @@ const navItems: NavItem[] = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { isSectionTitle: true, icon: SettingsIcon /* Placeholder */, label: 'Core Operations' },
   {
-    icon: Ship, label: 'Shipments', collapsible: true, defaultOpen: true, children: [
+    icon: Ship, label: 'Shipments', collapsible: true, defaultOpen: false, children: [
       { href: '/shipments/risk-heatmap', icon: MapPin, label: 'Risk Heatmap' },
       { href: '/shipments/cost-time-simulator', icon: DollarSign, label: 'Cost/Time Simulator' },
       { href: '/shipments/disruption-replay', icon: AlertTriangleIcon, label: 'Disruption Replay' },
@@ -238,17 +239,18 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
   );
 }
 
+
 function LayoutInternal({ children, pathname }: { children: ReactNode; pathname: string | null }) {
-  const { state: sidebarState, isMobile } = useSidebar();
+  const { state: sidebarState, isMobile, toggleSidebar } = useSidebar();
 
   return (
     <>
       <Sidebar collapsible="icon">
-          <SidebarHeader className={cn(
+         <SidebarHeader className={cn(
             "flex items-center h-14",
-            isMobile && "justify-start p-4", // Mobile: Logo only, aligned left
-            !isMobile && sidebarState === 'expanded' && "justify-start p-4", // Desktop Expanded: Logo left
-            !isMobile && sidebarState === 'collapsed' && "justify-center p-2 h-14" // Desktop Collapsed: Minimal
+            isMobile && "justify-start p-4", 
+            !isMobile && sidebarState === 'expanded' && "justify-between p-4", 
+            !isMobile && sidebarState === 'collapsed' && "justify-center p-2 h-14" 
           )}>
             {/* Mobile Header Content (in Sheet) */}
             {isMobile && (
@@ -259,11 +261,17 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
 
             {/* Desktop Expanded Sidebar Header Content */}
             {!isMobile && sidebarState === 'expanded' && (
-              <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
-                <Logo className="h-6 w-auto" />
-              </Link>
+              <>
+                <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
+                  <Logo className="h-6 w-auto" />
+                </Link>
+                 <SidebarTrigger className="h-7 w-7 text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent" />
+              </>
             )}
-            {/* Desktop Collapsed Sidebar Header: No logo or trigger as trigger is outside */}
+            {/* Desktop Collapsed Sidebar Header: Show only trigger */}
+            {!isMobile && sidebarState === 'collapsed' && (
+               <SidebarTrigger className="h-7 w-7 text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent" />
+            )}
           </SidebarHeader>
         <SidebarContent>
           <ScrollArea className="h-full">
@@ -296,20 +304,19 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
           </Button>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="flex flex-col relative"> {/* Ensure relative positioning for the absolute trigger */}
+      <SidebarInset className="flex flex-col">
         
-        {/* Desktop Sidebar Trigger: Positioned top-left of this SidebarInset container */}
-        <div className="absolute top-3.5 left-4 z-20 hidden md:flex"> {/* Use md:flex to show on desktop */}
-            <SidebarTrigger className="h-7 w-7 text-foreground hover:bg-accent hover:text-accent-foreground" />
-        </div>
-
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
-           {/* Mobile-only trigger in main header. */}
-          <SidebarTrigger className="h-7 w-7 md:hidden" /> {/* Use md:hidden to show only on mobile */}
+          {/* Mobile-only trigger in main header. */}
+          <SidebarTrigger className="h-7 w-7 md:hidden" />
+          
+          {/* Desktop-only trigger in main header if sidebar is collapsed */}
+          <div className="hidden md:flex">
+             {sidebarState === 'collapsed' && <SidebarTrigger className="h-7 w-7" />}
+          </div>
           
           <div className="flex-1">
             {/* Optional: Page Title or Breadcrumbs can go here */}
-            {/* Add pl-10 for desktop if title needs to clear the absolute button, not needed if using flex-1 */}
           </div>
           <UserProfile />
         </header>
@@ -324,10 +331,12 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
 export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   return (
-    <SidebarProvider defaultOpen>
+    <SidebarProvider defaultOpen> {/* defaultOpen true means sidebar is expanded by default on desktop */}
       <LayoutInternal pathname={pathname}>
         {children}
       </LayoutInternal>
     </SidebarProvider>
   );
 }
+
+    
