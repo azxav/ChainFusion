@@ -76,6 +76,26 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle>Logistics Overview</CardTitle>
+            <CardDescription>Snapshot of current logistics operations.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center justify-center">
+            <Image 
+              src="https://firebasestorage.googleapis.com/v0/b/project-id.appspot.com/o/67e801a0-c0c6-428e-854a-dc640ca66f7e.png?alt=media&token=f4570346-614d-47a5-82b3-0873f9ed6652" 
+              alt="Logistics Map Overview" 
+              width={600} 
+              height={400} 
+              className="rounded-md object-cover"
+            />
+            <p className="mt-4 text-sm text-muted-foreground">
+              Interactive 3D map of ongoing shipments.
+            </p>
+            <Button variant="outline" className="mt-4">View Live Map</Button>
+          </CardContent>
+        </Card>
+
         <Card className="lg:col-span-2 shadow-lg">
           <CardHeader>
             <CardTitle>KPI Performance: Actual vs. Simulated</CardTitle>
@@ -98,26 +118,6 @@ export default function DashboardPage() {
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
-          </CardContent>
-        </Card>
-        
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle>Logistics Overview</CardTitle>
-            <CardDescription>Snapshot of current logistics operations.</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center">
-            <Image 
-              src="https://firebasestorage.googleapis.com/v0/b/project-id.appspot.com/o/67e801a0-c0c6-428e-854a-dc640ca66f7e.png?alt=media&token=f4570346-614d-47a5-82b3-0873f9ed6652" 
-              alt="Logistics Map Overview" 
-              width={600} 
-              height={400} 
-              className="rounded-md object-cover"
-            />
-            <p className="mt-4 text-sm text-muted-foreground">
-              Interactive 3D map of ongoing shipments.
-            </p>
-            <Button variant="outline" className="mt-4">View Live Map</Button>
           </CardContent>
         </Card>
       </div>
