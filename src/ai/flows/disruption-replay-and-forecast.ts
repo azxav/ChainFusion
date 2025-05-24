@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -15,7 +16,7 @@ const DisruptionReplayAndForecastInputSchema = z.object({
   disruptionType: z
     .string()
     .describe(
-      'The type of disruption to simulate (e.g., semiconductor outage, border closure).'distruptionType
+      'The type of disruption to simulate (e.g., semiconductor outage, border closure).'
     ),
   disruptionDetails: z
     .string()
@@ -79,3 +80,4 @@ const disruptionReplayAndForecastFlow = ai.defineFlow(
     return output!;
   }
 );
+
