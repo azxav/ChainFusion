@@ -50,11 +50,10 @@ import {
   GitFork,
   DatabaseZap,
   PanelLeft,
-  Replace,
-  ListOrdered,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
 
 const SidebarMenuSub = React.forwardRef<
   HTMLUListElement,
@@ -64,8 +63,9 @@ const SidebarMenuSub = React.forwardRef<
     ref={ref}
     data-sidebar="menu-sub"
     className={cn(
-      "flex min-w-0 flex-col gap-1 py-0.5", 
+      "flex min-w-0 flex-col gap-1 py-0.5",
       "group-data-[collapsible=icon]:hidden",
+      // Removed indentation: "mx-3.5 translate-x-px border-l border-sidebar-border px-2.5", 
       className
     )}
     {...props}
@@ -97,6 +97,7 @@ const SidebarMenuSubButton = React.forwardRef<
       "flex h-7 min-w-0 items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
       "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
       "text-sm",
+      // Removed translation for sub-button: "-translate-x-px",
       "group-data-[collapsible=icon]:hidden",
       className
     )}
@@ -146,7 +147,6 @@ const navItems: NavItem[] = [
       { href: '/operations/auto-replanning', icon: GitFork, label: 'Auto-Replanning' },
       { href: '/operations/robot-tasks', icon: BotIcon, label: 'Robot Task Queues' },
       { href: '/operations/iot-network', icon: Network, label: 'IoT Network' },
-      { href: '/operations/voice-alerts', icon: Volume2, label: 'Voice Alerts' },
       { href: '/operations/reinforcement-planner', icon: Route, label: 'RL Planner (Mock)' },
       { href: '/operations/load-matching', icon: Truck, label: 'Load Matching (Mock)' },
     ]
@@ -160,7 +160,7 @@ const navItems: NavItem[] = [
     ]
   },
   { isSectionTitle: true, icon: SettingsIcon /* Placeholder */, label: 'Tools & Settings' },
-  { href: '/communication/chat-ops', icon: BotIcon, label: 'Chat-Ops Bot' },
+  { href: '/communication/chat-ops', icon: BotIcon, label: 'Chat-Ops Agent' },
   { href: '/settings', icon: SettingsIcon, label: 'Settings (Localization)' },
 ];
 
@@ -256,16 +256,19 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
             {/* Mobile: Only Logo */}
             {isMobile && (
               <Link href="/" className="flex items-center gap-2 text-sidebar-foreground hover:text-sidebar-primary-foreground">
-                <Logo className="h-6 w-auto" />
+                <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
               </Link>
             )}
-            {/* Desktop Expanded: Logo on left, (No trigger here anymore) */}
+            {/* Desktop Expanded: Logo on left, Trigger on Right */}
             {!isMobile && sidebarState === 'expanded' && (
-              <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
-                <Logo className="h-6 w-auto" />
-              </Link>
+              <>
+                <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
+                  <Logo className="h-6 w-auto text-sidebar-primary-foreground" />
+                </Link>
+                {/* Desktop Trigger is now in the SidebarInset/main header */}
+              </>
             )}
-             {/* Desktop Collapsed: Header is minimal, trigger is external */}
+             {/* Desktop Collapsed: Header is minimal as trigger is external */}
              {!isMobile && sidebarState === 'collapsed' && (
                null 
             )}
@@ -323,7 +326,6 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
         )}
 
         <main className="flex-1 overflow-auto p-4 md:p-6">
-          {/* Removed conditional padding md:pl-10 to simplify layout with external trigger */}
           <div> 
              {children}
           </div>
@@ -337,7 +339,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   return (
     <SidebarProvider defaultOpen> 
-      <LayoutInternal pathname={pathname} children={children} />
+      <LayoutInternal pathname={pathname}>{children}</LayoutInternal>
     </SidebarProvider>
   );
 }
