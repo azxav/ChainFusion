@@ -50,6 +50,8 @@ import {
   GitFork,
   DatabaseZap,
   PanelLeft,
+  Replace,
+  ListOrdered,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -264,7 +266,7 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
               </>
             )}
              {!isMobile && sidebarState === 'collapsed' && (
-               null // No logo or trigger in collapsed sidebar header now
+               null 
             )}
           </SidebarHeader>
         <SidebarContent>
