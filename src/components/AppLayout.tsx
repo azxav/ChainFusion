@@ -198,7 +198,7 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
         setIsOpen(true);
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isActiveParent, item.children]);
+    }, [isActiveParent, item.children]); // isOpen removed to prevent re-triggering on manual close
 
     return (
       <SidebarMenuItem>
@@ -239,9 +239,8 @@ function RecursiveNavItem({ item, pathname }: { item: NavItem; pathname: string 
   );
 }
 
-
 function LayoutInternal({ children, pathname }: { children: ReactNode; pathname: string | null }) {
-  const { state: sidebarState, isMobile, toggleSidebar } = useSidebar();
+  const { state: sidebarState, isMobile } = useSidebar();
 
   return (
     <>
@@ -265,12 +264,12 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
                 <Link href="/" className="flex items-center text-sidebar-foreground hover:text-sidebar-primary-foreground">
                   <Logo className="h-6 w-auto" />
                 </Link>
-                 <SidebarTrigger className="h-7 w-7 text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent" />
+                 {/* Trigger moved to main header for desktop */}
               </>
             )}
             {/* Desktop Collapsed Sidebar Header: Show only trigger */}
             {!isMobile && sidebarState === 'collapsed' && (
-               <SidebarTrigger className="h-7 w-7 text-sidebar-foreground hover:text-sidebar-primary-foreground hover:bg-sidebar-accent" />
+               <div /> // Empty div, trigger is in main header
             )}
           </SidebarHeader>
         <SidebarContent>
@@ -304,16 +303,11 @@ function LayoutInternal({ children, pathname }: { children: ReactNode; pathname:
           </Button>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="flex flex-col">
+      <SidebarInset className="flex flex-col relative"> {/* Added relative for potential absolute positioning inside */}
         
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6 shadow-sm">
-          {/* Mobile-only trigger in main header. */}
-          <SidebarTrigger className="h-7 w-7 md:hidden" />
-          
-          {/* Desktop-only trigger in main header if sidebar is collapsed */}
-          <div className="hidden md:flex">
-             {sidebarState === 'collapsed' && <SidebarTrigger className="h-7 w-7" />}
-          </div>
+          {/* Universal trigger for both mobile and desktop */}
+          <SidebarTrigger className="h-7 w-7" />
           
           <div className="flex-1">
             {/* Optional: Page Title or Breadcrumbs can go here */}
@@ -338,5 +332,3 @@ export function AppLayout({ children }: { children: ReactNode }) {
     </SidebarProvider>
   );
 }
-
-    
