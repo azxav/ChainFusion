@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -107,12 +108,11 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent className="flex flex-col items-center justify-center">
             <Image 
-              src="https://placehold.co/600x400.png" 
-              alt="Logistics Map Placeholder" 
+              src="https://firebasestorage.googleapis.com/v0/b/project-id.appspot.com/o/67e801a0-c0c6-428e-854a-dc640ca66f7e.png?alt=media&token=f4570346-614d-47a5-82b3-0873f9ed6652" 
+              alt="Logistics Map Overview" 
               width={600} 
               height={400} 
               className="rounded-md object-cover"
-              data-ai-hint="logistics map animation" 
             />
             <p className="mt-4 text-sm text-muted-foreground">
               Interactive 3D map of ongoing shipments.
@@ -155,3 +155,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+
