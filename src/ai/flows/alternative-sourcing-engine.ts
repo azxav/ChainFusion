@@ -4,14 +4,16 @@
  * @fileOverview An AI-powered RFQ automation tool for identifying and engaging alternative suppliers.
  *
  * - findAlternativeSuppliers - A function that handles the process of finding alternative suppliers, ranking them, and drafting PO amendments.
+ * - FindAlternativeSuppliersInputSchema - The Zod schema for the input.
  * - FindAlternativeSuppliersInput - The input type for the findAlternativeSuppliers function.
+ * - FindAlternativeSuppliersOutputSchema - The Zod schema for the output.
  * - FindAlternativeSuppliersOutput - The return type for the findAlternativeSuppliers function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const FindAlternativeSuppliersInputSchema = z.object({
+export const FindAlternativeSuppliersInputSchema = z.object({
   partName: z.string().describe('The name of the part needed.'),
   quantity: z.number().describe('The quantity of the part needed.'),
   dueDate: z.string().describe('The date the part is needed by.'),
@@ -21,7 +23,7 @@ const FindAlternativeSuppliersInputSchema = z.object({
 });
 export type FindAlternativeSuppliersInput = z.infer<typeof FindAlternativeSuppliersInputSchema>;
 
-const FindAlternativeSuppliersOutputSchema = z.object({
+export const FindAlternativeSuppliersOutputSchema = z.object({
   alternativeSuppliers: z.array(
     z.object({
       supplierName: z.string().describe('The name of the alternative supplier.'),

@@ -6,14 +6,16 @@
  * @fileOverview Provides live risk scores for each supplier, combining financial health, delivery history, news sentiment, and geopolitical indicators.
  *
  * - getSupplierVitalityScore - A function that retrieves the supplier vitality score.
+ * - SupplierVitalityScoreInputSchema - The Zod schema for the input.
  * - SupplierVitalityScoreInput - The input type for the getSupplierVitalityScore function.
+ * - SupplierVitalityScoreOutputSchema - The Zod schema for the output.
  * - SupplierVitalityScoreOutput - The return type for the getSupplierVitalityScore function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const SupplierVitalityScoreInputSchema = z.object({
+export const SupplierVitalityScoreInputSchema = z.object({
   supplierName: z.string().describe('The name of the supplier.'),
   financialHealth: z.string().describe('Financial health data of the supplier.'),
   deliveryHistory: z.string().describe('Delivery history data of the supplier.'),
@@ -22,7 +24,7 @@ const SupplierVitalityScoreInputSchema = z.object({
 });
 export type SupplierVitalityScoreInput = z.infer<typeof SupplierVitalityScoreInputSchema>;
 
-const SupplierVitalityScoreOutputSchema = z.object({
+export const SupplierVitalityScoreOutputSchema = z.object({
   supplierName: z.string().describe('The name of the supplier.'),
   vitalityScore: z.number().describe('A risk score combining financial health, delivery history, news sentiment and geopolitical indicators.'),
   riskAssessment: z.string().describe('A risk assessment based on the vitality score.'),

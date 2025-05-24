@@ -5,14 +5,16 @@
  * @fileOverview This file defines a Genkit flow for simulating the impact of supply chain disruptions.
  *
  * - disruptionReplayAndForecast - Simulates the impact of a disruption on the production line.
+ * - DisruptionReplayAndForecastInputSchema - The Zod schema for the input.
  * - DisruptionReplayAndForecastInput - The input type for the disruptionReplayAndForecast function.
+ * - DisruptionReplayAndForecastOutputSchema - The Zod schema for the output.
  * - DisruptionReplayAndForecastOutput - The return type for the disruptionReplayAndForecast function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const DisruptionReplayAndForecastInputSchema = z.object({
+export const DisruptionReplayAndForecastInputSchema = z.object({
   disruptionType: z
     .string()
     .describe(
@@ -27,7 +29,7 @@ export type DisruptionReplayAndForecastInput = z.infer<
   typeof DisruptionReplayAndForecastInputSchema
 >;
 
-const DisruptionReplayAndForecastOutputSchema = z.object({
+export const DisruptionReplayAndForecastOutputSchema = z.object({
   impactSummary: z.string().describe('A summary of the disruption impact on the production line.'),
   affectedComponents: z
     .array(z.string())

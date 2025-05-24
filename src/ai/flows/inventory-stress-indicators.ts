@@ -4,14 +4,16 @@
  * @fileOverview Predicts stock-out probability and 'time-to-empty' for components.
  *
  * - getInventoryStressIndicators - A function that returns stock-out probability forecasts and time-to-empty countdowns for each component.
+ * - InventoryStressIndicatorsInputSchema - The Zod schema for the input.
  * - InventoryStressIndicatorsInput - The input type for the getInventoryStressIndicators function.
+ * - InventoryStressIndicatorsOutputSchema - The Zod schema for the output.
  * - InventoryStressIndicatorsOutput - The return type for the getInventoryStressIndicators function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const InventoryStressIndicatorsInputSchema = z.object({
+export const InventoryStressIndicatorsInputSchema = z.object({
   componentName: z.string().describe('The name of the component.'),
   currentStockLevel: z.number().describe('The current stock level of the component.'),
   averageDailyUsage: z.number().describe('The average daily usage of the component.'),
@@ -21,7 +23,7 @@ const InventoryStressIndicatorsInputSchema = z.object({
 });
 export type InventoryStressIndicatorsInput = z.infer<typeof InventoryStressIndicatorsInputSchema>;
 
-const InventoryStressIndicatorsOutputSchema = z.object({
+export const InventoryStressIndicatorsOutputSchema = z.object({
   stockOutProbability: z
     .number()
     .describe(
