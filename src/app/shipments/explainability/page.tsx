@@ -12,6 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Loader2, Lightbulb, Info, Search, ListTree, Percent } from 'lucide-react';
 import { explainShipmentRisk, type ExplainabilityDashboardInput, type ExplainabilityDashboardOutput } from '@/ai/flows/explainability-dashboards';
 import { useToast } from '@/hooks/use-toast';
+import { Badge } from '@/components/ui/badge'; // Added import
 
 export default function ExplainabilityDashboardPage() {
   const [shipmentId, setShipmentId] = useState<string>('SHPXYZ789');
