@@ -1,3 +1,4 @@
+
 // src/ai/flows/robot-ready-task-queues.ts
 
 'use server';
@@ -44,7 +45,7 @@ const RobotReadyTaskQueuesOutputSchema = z.object({
         .describe(
           'The location of the item in the warehouse (e.g., aisle and shelf).'
         ),
-      quantity: z.number().int().positive().describe('Quantity of the item to pick.'),
+      quantity: z.number().int().min(1).describe('Quantity of the item to pick.'), // Changed from .positive()
       estimatedTravelTime: z
         .number()
         .describe('Estimated travel time to the item location in seconds.'),
@@ -97,3 +98,4 @@ const robotReadyTaskQueuesFlow = ai.defineFlow(
     return output!;
   }
 );
+
