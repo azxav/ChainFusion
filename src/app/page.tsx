@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -6,7 +5,7 @@ import { PageHeader } from '@/components/shared/PageHeader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, BarChart3, Ship, Users, Warehouse, AlertTriangle, PackageSearch, Bot } from 'lucide-react';
-import Image from 'next/image';
+import LogisticsSimulation from '@/components/dashboard/LogisticsSimulation';
 import {
   ChartContainer,
   ChartTooltip,
@@ -76,27 +75,17 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="shadow-lg">
+        <Card className="shadow-lg lg:col-span-3">
           <CardHeader>
             <CardTitle>Logistics Overview</CardTitle>
-            <CardDescription>Snapshot of current logistics operations.</CardDescription>
+            <CardDescription>Real-time simulation of logistics operations with 5 trucks.</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center">
-            <Image 
-              src="https://firebasestorage.googleapis.com/v0/b/project-id.appspot.com/o/67e801a0-c0c6-428e-854a-dc640ca66f7e.png?alt=media&token=f4570346-614d-47a5-82b3-0873f9ed6652" 
-              alt="Logistics Map Overview" 
-              width={600} 
-              height={400} 
-              className="rounded-md object-cover"
-            />
-            <p className="mt-4 text-sm text-muted-foreground">
-              Interactive 3D map of ongoing shipments.
-            </p>
-            <Button variant="outline" className="mt-4">View Live Map</Button>
+          <CardContent>
+            <LogisticsSimulation />
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-2 shadow-lg">
+        <Card className="lg:col-span-3 shadow-lg">
           <CardHeader>
             <CardTitle>KPI Performance: Actual vs. Simulated</CardTitle>
             <CardDescription>Monthly comparison of key performance indicators.</CardDescription>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, type ReactNode } from 'react';
@@ -119,48 +118,16 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { href: '/', icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/communication/chat-ops', icon: BotIcon, label: 'Chat-Ops Agent' },
   { isSectionTitle: true, icon: SettingsIcon /* Placeholder */, label: 'Core Operations' },
-  {
-    icon: Ship, label: 'Shipments', collapsible: true, defaultOpen: false, children: [
-      { href: '/shipments/risk-heatmap', icon: MapPin, label: 'Risk Heatmap' },
-      { href: '/shipments/cost-time-simulator', icon: DollarSign, label: 'Cost/Time Simulator' },
-      { href: '/shipments/disruption-replay', icon: AlertTriangleIcon, label: 'Disruption Replay' },
-      { href: '/shipments/explainability', icon: Lightbulb, label: 'Explainability' },
-    ]
-  },
-  {
-    icon: Users, label: 'Suppliers', collapsible: true, defaultOpen: false, children: [
-      { href: '/suppliers/vitality-scorecards', icon: FileText, label: 'Vitality Scorecards' },
-      { href: '/suppliers/alternative-sourcing', icon: PackageSearch, label: 'Alternative Sourcing' },
-    ]
-  },
-  {
-    icon: Warehouse, label: 'Inventory', collapsible: true, defaultOpen: false, children: [
-      { href: '/inventory/stress-indicators', icon: AlertTriangleIcon, label: 'Stress Indicators' },
-      { href: '/inventory/buffer-stock', icon: RefreshCw, label: 'Buffer Stock Recs' },
-      { href: '/inventory/discrepancy-resolution', icon: ClipboardList, label: 'Discrepancy Resolution' },
-    ]
-  },
-  {
-    icon: Cpu, label: 'Production & Planning', collapsible: true, defaultOpen: false, children: [
-      { href: '/operations/demand-forecaster', icon: BarChart3, label: 'Demand Forecaster' },
-      { href: '/operations/auto-replanning', icon: GitFork, label: 'Auto-Replanning' },
-      { href: '/operations/robot-tasks', icon: BotIcon, label: 'Robot Task Queues' },
-      { href: '/operations/iot-network', icon: Network, label: 'IoT Network' },
-      { href: '/operations/reinforcement-planner', icon: Route, label: 'RL Planner (Mock)' },
-      { href: '/operations/load-matching', icon: Truck, label: 'Load Matching (Mock)' },
-    ]
-  },
+  { href: '/shipments', icon: Ship, label: 'Shipments' },
+  { href: '/suppliers', icon: Users, label: 'Suppliers' },
+  { href: '/inventory', icon: Warehouse, label: 'Inventory' },
+  { href: '/operations', icon: Cpu, label: 'Production & Planning' },
   { isSectionTitle: true, icon: SettingsIcon /* Placeholder */, label: 'Analytics & AI' },
   { href: '/analytics/kpi-dashboards', icon: BarChart3, label: 'KPI Dashboards' },
-  {
-    icon: SlidersHorizontal, label: 'AI Models', collapsible: true, defaultOpen: false, children: [
-      { href: '/ai-models/data-drift', icon: DatabaseZap, label: 'Data Drift Detection' },
-      { href: '/ai-models/ab-experiments', icon: TestTube2, label: 'A/B Experiments' },
-    ]
-  },
+  { href: '/ai-models', icon: SlidersHorizontal, label: 'AI Models' },
   { isSectionTitle: true, icon: SettingsIcon /* Placeholder */, label: 'Tools & Settings' },
-  { href: '/communication/chat-ops', icon: BotIcon, label: 'Chat-Ops Agent' },
   { href: '/settings', icon: SettingsIcon, label: 'Settings (Localization)' },
 ];
 
