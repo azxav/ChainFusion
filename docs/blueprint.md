@@ -1,4 +1,4 @@
-# **App Name**: Tashkent Vision
+# **App Name**: ChainFusion
 
 ## Core Features:
 
@@ -23,15 +23,3 @@
 - Automated Data Drift Detection: Monitors model inputs (e.g., route times, supplier lead-times) and flags when retraining is needed.
 - A/B-Style Pilot Experiments: Spin up new model versions on a small subset of shipments, compare performance, then auto-promote the winner.
 - Explainability Dashboards: “Why did the system flag this shipment as high-risk?”—with viewable feature contributions.
-
-## Style Guidelines:
-
-- Primary color: Dark Purple (#301934) to evoke trust and stability in logistics.
-- Background color: Light desaturated White (#F4F4F8) to provide a calm and professional backdrop.
-- Accent color: Analogous Purple (#702963) for interactive elements and highlights, creating a distinctive contrast.
-- Clean and modern font for data clarity.
-- Consistent use of line icons for clarity.
-- Map-centric design with clear drill-down panels.
-- Subtle animations during simulations for investor engagement.
-- Use of 3D elements to enhance the user experience and provide a more immersive view of the data.
-- Incorporate smooth transitions and interactive animations to guide users through the application.
