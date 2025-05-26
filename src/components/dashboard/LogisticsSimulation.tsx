@@ -1533,6 +1533,79 @@ const LogisticsSimulation: React.FC = () => {
           </Card>
         </div>
       )}
+      
+      {/* Agent Workflow Visualization - Now placed right after Agent Notifications */}
+      {agentActivities.length > 0 && (
+        <div className="md:col-span-2">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center">
+                <Activity className="w-4 h-4 mr-2 text-blue-500" />
+                Agent Workflow
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="relative">
+                {/* Active Agents */}
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {activeAgents.map(agent => (
+                    <div key={agent} className="bg-blue-50 text-blue-800 text-xs font-medium rounded px-2 py-1 flex items-center">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 animate-pulse"></div>
+                      {agent}
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Agent Activity Timeline */}
+                <div className="space-y-3 max-h-[180px] overflow-y-auto">
+                  {agentActivities.map((activity) => (
+                    <div key={activity.id} className="flex items-start">
+                      {/* Status indicator */}
+                      <div className={`mt-0.5 mr-2 ${
+                        activity.status === 'working' ? 'text-blue-500' :
+                        activity.status === 'completed' ? 'text-green-500' :
+                        activity.status === 'waiting' ? 'text-amber-500' : 'text-gray-400'
+                      }`}>
+                        {activity.icon}
+                      </div>
+                      
+                      {/* Activity details */}
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start">
+                          <p className="text-xs font-medium">{activity.agent}</p>
+                          <p className="text-[10px] text-gray-500">
+                            {activity.status === 'working' ? (
+                              <span className="flex items-center">
+                                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1 animate-pulse"></span>
+                                Working
+                              </span>
+                            ) : activity.status === 'completed' ? (
+                              <span className="flex items-center">
+                                <CheckCircle className="w-3 h-3 mr-1 text-green-500" />
+                                Completed
+                              </span>
+                            ) : (
+                              activity.status
+                            )}
+                          </p>
+                        </div>
+                        <p className="text-xs text-gray-700">{activity.action}</p>
+                        
+                        {/* Progress bar for working activities */}
+                        {activity.status === 'working' && (
+                          <div className="w-full h-1 bg-blue-100 rounded-full mt-1 overflow-hidden">
+                            <div className="h-full bg-blue-500 animate-progress-indeterminate"></div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Truck Status */}
       <div>
@@ -1708,77 +1781,6 @@ const LogisticsSimulation: React.FC = () => {
                   </div>
                 );
               })}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Agent Workflow Visualization */}
-      <div className="md:col-span-2">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center">
-              <Activity className="w-4 h-4 mr-2 text-blue-500" />
-              Agent Workflow
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="relative">
-              {/* Active Agents */}
-              <div className="flex flex-wrap gap-2 mb-3">
-                {activeAgents.map(agent => (
-                  <div key={agent} className="bg-blue-50 text-blue-800 text-xs font-medium rounded px-2 py-1 flex items-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 animate-pulse"></div>
-                    {agent}
-                  </div>
-                ))}
-              </div>
-              
-              {/* Agent Activity Timeline */}
-              <div className="space-y-3 max-h-[180px] overflow-y-auto">
-                {agentActivities.map((activity) => (
-                  <div key={activity.id} className="flex items-start">
-                    {/* Status indicator */}
-                    <div className={`mt-0.5 mr-2 ${
-                      activity.status === 'working' ? 'text-blue-500' :
-                      activity.status === 'completed' ? 'text-green-500' :
-                      activity.status === 'waiting' ? 'text-amber-500' : 'text-gray-400'
-                    }`}>
-                      {activity.icon}
-                    </div>
-                    
-                    {/* Activity details */}
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start">
-                        <p className="text-xs font-medium">{activity.agent}</p>
-                        <p className="text-[10px] text-gray-500">
-                          {activity.status === 'working' ? (
-                            <span className="flex items-center">
-                              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1 animate-pulse"></span>
-                              Working
-                            </span>
-                          ) : activity.status === 'completed' ? (
-                            <span className="flex items-center">
-                              <CheckCircle className="w-3 h-3 mr-1 text-green-500" />
-                              Completed
-                            </span>
-                          ) : (
-                            activity.status
-                          )}
-                        </p>
-                      </div>
-                      <p className="text-xs text-gray-700">{activity.action}</p>
-                      
-                      {/* Progress bar for working activities */}
-                      {activity.status === 'working' && (
-                        <div className="w-full h-1 bg-blue-100 rounded-full mt-1 overflow-hidden">
-                          <div className="h-full bg-blue-500 animate-progress-indeterminate"></div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </CardContent>
         </Card>
